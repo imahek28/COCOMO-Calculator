@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>COCOMO II</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+/* Containers */
+html, body {
+  min-height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  background: #42426b;
+  background-image: -webkit-linear-gradient(135deg, #8067B7, #EC87C0);
+  background-image: linear-gradient(-45deg, #8067B7, #EC87C0);
+  color: rgba(255,255,255,.5);
+}
+
+.rb-box {
+  width: 80%;
+  max-width: 100vw;
+  margin: 50px auto;
+  padding: 1.3em;
+  background: #292942;
+  border-radius: .75em;
+  -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+  filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+  box-shadow:
+    0 2px 2px rgba(243,49,128,.5),
+    0 0px 5px rgba(243,49,128,.15),
+    0 0px 4px rgba(0,0,0,.35),
+    0 5px 20px rgba(243,49,128,.25),
+    0 15px 50px rgba(243,49,128,.75),
+    inset 0 0 15px rgba(255,255,255,.05);
+}
+
+/* Custom Radio Button */
+p {
+  font-size: .9em;
+
+}
+
+.rb {
+  padding: 16px 0;
+  padding-left:15px;
+  background: rgba(255,255,255,.03);
+  border-radius: .3em;
+}
+
+.rb-tab {
+  display: inline-block;
+  position: relative;
+  width: 20%;
+}
+
+.rb-txt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: .5em;
+  color: #FFFFFF;
+}
+
+.rb-spot {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: 2px solid rgba(255,255,255,.3);
+  border-radius: 100%;
+  cursor: pointer;
+  transition: ease .5s;
+}
+
+.rb-tab-active .rb-spot {
+  background: rgba(0,0,0,.35);
+  border: 2px solid rgba(243,49,128,.6);
+}
+
+/* Submit Button */
+.button-box {
+  padding: 10px 0;
+  text-align: center;
+}
+
+button {
+  display: inline-block;
+  width: 80%;
+  margin-top: 1.2em;
+  padding: 1em;
+  max-width: 220px;
+  font-size: .9em;
+  color: #D42D78;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: .15em;
+  background: white;
+  border: none;
+  outline: none;
+  border-radius: 5em;
+  box-shadow: 0 15px 20px -10px rgba(0, 0, 0, 0.3);
+  transition:
+    color 0.6s,
+    box-shadow 0.3s,
+    transform 0.3s;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 0 3px 5px -5px rgba(0, 0, 0, 0.3);
+  color: #6f6f6f;
+}
+
+.tstyle{
+  text-align:center;
+  color:#292942
+}
+
+.ptext{
+
+  font-size: .9em;
+}
+.tablec{
+  
+  text-align: center;
+  border:#D42D78;
+  border-radius: 3em;
+  margin: 3rem;
+  
+}
+.tablec1{
+  
+  text-align:left;
+  border:#D42D78;
+  border-radius: 3em;
+  margin: 3rem;
+  
+}
+.resize{
+  width: 4em;
+  height:2em;
+}
+
+  </style>
+</head>
+<body>
+  <h1 class="tstyle">COCOMO II</h1>
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+        <p class="ptext">Enter KLOC:</p>
+        <form>
+          <input type="Text" Required name="size">
+        </form>
+      </div>
+      <div style="padding-top:3em">
+        <form method="post" >
+        <table borber="5" class="tablec">
+          <thead>  
+            <th>------</th>
+            <th>SLOC</th>
+            <th>% Design Modified </th>
+            <th>% Code Modified </th>
+            <th>% Integration Reqiured </th>
+            <th>Assessment & Assimilation<br>(0% - 8%)</th>
+            <th>Software Understanding<br>(0% - 50%) </th>
+            <th>Unfimiliarity (0 - 1)</th>
+          </thead>
+          <tr>
+            <td>New</td>
+            <td><input type="text" class="resize" name="sloc"></td>
+            
+          </tr>
+          <tr>
+            <td>Reused</td>
+            <td><input type="text" class="resize" name="sloc1" ></td>
+            <td>0</td>
+            <td>0</td>
+            <td><input type="text" class="resize" name="integration"></td>
+            <td><input type="text" class="resize" name="assess"></td>
+          </tr>
+          <tr>
+            <td>Modified</td>
+            <td><input type="text" class="resize" name="sloc2"></td>              
+            <td><input type="text" class="resize" name="design"></td>
+            <td><input type="text" class="resize" name="code"></td>         
+            <td><input type="text" class="resize" name="integration1"></td>
+            <td><input type="text" class="resize" name="assess1"></td>
+            <td><input type="text" class="resize" name="understanding"></td>
+            <td><input type="text" class="resize" name="unfamiliar"></td>
+
+          </tr>
+            
+        </table>
+        </form>
+
+      </div>
+    </div>
+  </div>
+<br>
+<br>
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+        <p class="ptext"><b>Software Scale Drivers</b></p>
+      
+        <form method="post"  >
+        <table borber="5" class="tablec1">
+          
+          <tr>
+            <td style="padding-left:2rem ;">Precedentedness </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Architecture/Risk Resolution </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Process Maturity </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+          </tr>
+          
+
+          <tr style="padding-top: 2rem;">
+            <td style="padding-left:2rem ;">Development Flexibility </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Team Cohesion</td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            
+          </tr>
+          
+            
+        </table>
+        </form>
+
+
+        
+      </div>
+    </div>
+  </div>
+<br>
+<br>
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+
+        <p class="ptext"><b>Software Cost Drivers</b></p>
+      
+        <form method="post"  >
+        <table borber="5" class="tablec1">
+          
+          <tr>
+            <td style="padding-left:2rem ;">Required Software Reliability </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Database Size</td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n"selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Product Complexity </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+          </tr>
+          
+
+          <tr style="padding-top: 2rem;">
+            <td style="padding-left:2rem ;">Developed for Resuability </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Documentation Match</td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low   
+                </option>  
+                <option value = "l"> Low 
+                </option>  
+                <option value = "n" selected> Nominal  
+                </option>  
+                <option value = "h"> High  
+                </option>  
+                <option value = "vh"> Very High  
+                </option> 
+                <option value = "eh"> Extremely High  
+                </option>  
+                </select>
+            </td>
+            
+          </tr>
+          
+            
+        </table>
+        </form>
+      </div>
+     </div>
+    </div>
+<br>
+<br>
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+        <p class="ptext"><b>Personnel</b></p>
+      
+        <form method="post"  >
+        <table borber="5" class="tablec1">
+          
+          <tr>
+            <td style="padding-left:2rem ;">Analyst Capability </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Programmer Capability </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Personnel Continuity </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+          </tr>
+          
+
+          <tr style="padding-top: 2rem;">
+            <td style="padding-left:2rem ;">Application Experience</td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Platform Experience</td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Language & Toolset <br> Experience</td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            
+          </tr>
+          
+            
+        </table>
+        </form>
+
+
+        
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+        <p class="ptext"><b>Platform</b></p>
+      
+        <form method="post"  >
+        <table borber="5" class="tablec1">
+          
+          <tr>
+            <td style="padding-left:2rem ;">Time Constraint </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Storage Constraint </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Platform Constraint </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+          </tr>
+        </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+        <p class="ptext"><b>Project</b></p>
+      
+        <form method="post"  >
+        <table borber="5" class="tablec1">
+          
+          <tr>
+            <td style="padding-left:2rem ;">Use of Software Tools </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Multisite Development </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+            <td style="padding-left:2rem ;">Required Development Schedule </td>
+            <td style="padding-left:2rem ;">
+              <select>  
+                <option value = "vl"> Very Low </option>  
+                <option value = "l"> Low </option>  
+                <option value = "n" selected> Nominal </option>  
+                <option value = "h"> High </option>  
+                <option value = "vh"> Very High </option> 
+                <option value = "eh"> Extremely High</option>  
+              </select>
+            </td>
+          </tr>
+        </table>
+        </form>
+      </div>
+    </div>
+  </div>
+<br>
+<br>
+  <div class="container rb" style="background-color:#292942">
+    <div class="row">
+      <div class="col-lg-12" >
+        <p class="ptext"><b>Software Labor Rates</b></p>
+        <br>
+        <p>Cost per Person-Month (Rs)</p>
+        <input type="text" name="cost">
+      </div>
+    </div> 
+  </div>
+  <!-- Button -->
+  <div class="button-box">
+    <button class="button trigger">Calculate</button>
+  </div>
+
+</div>
+
+</body>
+</html>
